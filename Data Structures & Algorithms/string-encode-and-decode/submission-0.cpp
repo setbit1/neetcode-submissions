@@ -5,8 +5,8 @@ public:
     string encode(vector<string>& strs) {
         string ans;
         for(string s : strs){
-            int si = s.size();
-            ans += string((const char*)&si, sizeof(si));
+            int size = s.size();
+            ans += string((const char*)&size, sizeof(size));
             ans += s;
         }
         return ans;
@@ -15,13 +15,12 @@ public:
     vector<string> decode(string s) {
         vector<string> ans;
         int i=0, n = s.size();
-        int si = 0;
-        while( i< n)
-        {
-            memcpy(&si, s.data()+i, sizeof(si));
-            i+= sizeof(si);
-            ans.push_back(s.substr(i, si));
-            i+=si;
+        int size = 0;
+        while(i<n){
+            memcpy(&size, s.data()+i, sizeof(size));
+            i += sizeof(size);
+            ans.push_back(s.substr(i, size));
+            i += size;
         }
         return ans;
     }
